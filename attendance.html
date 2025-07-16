@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap demo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+      h1{
+        text-align: center;
+      }
+      .card{
+        position: absolute;
+        top: 100px;
+        left: 1000px;
+        width: 200px;
+      }
+      .card1{
+       position: absolute;
+        top: 400px;
+        left: 1000px;
+        width: 200px;
+      }
+
+    </style>
+  </head>
+  <body>
+   <h1>Attendance Tracker</h1>
+
+    <script type="text/javascript">
+        arr=['Jiya','Vishva','Kashis','Dhvani','Harshi','Krisha','Kavya','Yashvi','Prakruti','Tulsi'];
+        pcount=0;
+        acount=0;
+        plist=[];
+        alist=[];
+document.write("<table class='table table-dark table-striped' style=' width: 70%; margin-left:40px;margin-top:20px; text-align: center; height: 60vh;'>")
+ document.write(" <thead class='table-dark'>")  
+            document.write("<th>Roll No</th>");
+            document.write("<th>Name</th>");
+           
+            document.write("<th>Present/Absent</th>");
+            
+ document.write(" </thead>");
+  document.write("<tbody>")
+    for( i=0;i<10;i++){
+            let rollno=i+101;
+                 document.write("<tr>");
+                    document.write("<td>"+rollno+"</td>");
+                    document.write("<td>"+arr[i]+"</td>");
+                   
+                    document.write("<td><button class='btn btn-success me-5' onclick='present(this,"+rollno+","+i+")' id='b1'>Present</button><button class='btn btn-danger' onclick='absent(this,"+rollno+","+i+")' id='b2'>Absent</button></td>");
+                     document.write("</tr>");
+
+        }
+ document.write(" </tbody>");
+ document.write(" </table>");
+
+ document.write("<div class='card text-bg-dark'>");
+ document.write(" <div class='card-header'>");
+  document.write(" Result");
+  document.write("</div>") ;
+  document.write("<div class='card-body'>")
+    document.write("<h5 id='presentno' style='float: left; margin-right: 20px;'>");
+      document.write("<i class='bi bi-check-square-fill text-success'></i>Present:0");
+      document.write(" </h5>");
+       document.write(" </br>");
+     document.write("<h5 id='absentno'style='float: left;'> ");
+           document.write(" <i class='bi bi-x-square-fill text-danger'></i>Absent:0");
+            document.write(" </h5>");
+          document.write(" <button class='btn btn-primary mt-2 mb-3' id='reset' onclick='resetno()' style='margin-left: 40px;'>Reset</button>");
+   document.write("<button class='btn btn-warning mt-2 ms-3 mb-3' id='save' onclick='saveattendance()' >Save Attendance</button>");
+      document.write(" </div>");
+       document.write(" </div>");
+    
+  
+    
+    </script>
+    <script type="text/javascript">
+      pcount=0;acount=0;
+     
+    function present(button,rollno,index){
+     
+          if (!plist.includes(rollno)) {
+      plist.push(rollno);
+      pcount++;
+    }
+     absentIndex = alist.indexOf(rollno);
+    if (absentIndex !== -1) {
+      alist.splice(absentIndex, 1);
+      acount--;
+    }
+ document.getElementById("presentno").innerHTML="Present:"+pcount;
+  button.disabled=true;
+button.nextElementSibling.disabled = true;
+ }
+        
+      
+        function absent(button,rollno,index){
+          
+          if (!alist.includes(rollno)) {
+      alist.push(rollno);
+      acount++;
+    }
+     presentIndex = plist.indexOf(rollno);
+    if (presentIndex !== -1) {
+      plist.splice(presentIndex, 1);
+      pcount--;
+    }
+                 document.getElementById("absentno").innerHTML="absent:"+acount;
+                  button.disabled=true;
+                button.previousElementSibling.disabled = true;
+               
+            }
+        
+       function resetno() {
+   pcount = 0;
+  acount = 0;
+  plist=[];
+  alist=[];
+  
+  document.getElementById("presentno").innerText = "Present: 0";
+  document.getElementById("absentno").innerText = "Absent: 0";
+
+   buttons = document.getElementsByTagName("button");
+  for (var i = 0; i < buttons.length; i++) {
+    buttons[i].disabled = false;
+  }
+}
+function saveattendance() {
+    const output = document.getElementById("output");
+    output.innerHTML = `
+      <div class="alert alert-info">
+        <strong>Present Roll Numbers:</strong> ${plist.length > 0 ? plist.join(", ") : "None"}<br>
+        <strong>Absent Roll Numbers:</strong> ${alist.length > 0 ? alist.join(", ") : "None"}
+      </div>
+    `
+  }
+ 
+
+
+    </script>
+    <div class="card1">
+  <div class="card-header">
+   
+  </div>
+  <div class="card-body">
+   <div id="output" class="mt-3"></div>
+  </div>
+</div>
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
+  </body>
+</html>
