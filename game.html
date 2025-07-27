@@ -1,0 +1,119 @@
+<html>
+  <head>
+    <style>
+      #myImg{
+        position: absolute;
+        top: 100px;
+        left:0px
+      }
+      #khavanu{
+        position: absolute;
+        left: 300px;
+        top: 300px;
+        height: 50px;
+        width: 50px;
+      }
+    </style>
+  </head>
+  <body onkeyup="checkInput(event)">
+    Time Left: <span id="timeLeftSpan">30</span> seconds
+    <h1 id="gameOverMessage" style="color:red; display:none;">GAME OVER</h1>
+
+   
+   Current Score : <span id="currentScoreSpan">0</span></h1>
+   
+    <img src="shooter.jpg" id="khavanu" onclick="changeKhavanuPosition()"/>
+    <script>
+
+        let totalTime = 30; // seconds
+        let timeLeft = totalTime;
+        let timerInterval;
+        let gameOver = false;
+
+      currentX = 0;
+      currentY = 100;
+      intRef = 0;
+    
+      currentScore = -1;
+
+      khavanuX = 300;
+      khavanuY = 300;
+
+      currentSpeed = 10;
+
+      function startTimer() {
+  timerInterval = setInterval(function() {
+    if (timeLeft > 0) {
+      timeLeft--;
+      document.getElementById("timeLeftSpan").innerHTML = timeLeft;
+    } else {
+      endGame();
+    }
+  }, 1000);
+}
+
+function endGame() {
+  gameOver = true;
+  clearInterval(timerInterval);
+  document.getElementById("gameOverMessage").style.display = "block";
+}
+
+      function checkInput(e){
+         if(gameOver){
+    return; // No movement after game over
+  }
+        if(e.key=="ArrowUp"){
+          startTop();
+        }
+        if(e.key=="ArrowDown"){
+          startBottom();
+        }
+        if(e.key=="ArrowLeft"){
+          startLeft();
+        }
+        if(e.key=="ArrowRight"){
+          startRight();
+        }
+      }
+
+      function checkLimit(){
+        if(currentX>screen.availWidth-85 || currentX<0 || currentY>screen.availHeight-85 || currentY<0){
+          currentLife--;
+          currentX = screen.availWidth/2;
+          currentY = screen.availHeight/2;
+          
+        }
+        if((khavanuX<currentX+100 && khavanuX>currentX-100) && (khavanuY<currentY+100 && khavanuY>currentY-100)){
+          changeKhavanuPosition();
+        }
+
+      }
+
+     
+
+
+      
+
+
+      function changeKhavanuPosition(){
+        currentScore++;
+      
+        document.getElementById("currentScoreSpan").innerHTML = currentScore;
+        khavanuX = parseInt(Math.random() * (screen.availWidth-100));
+        khavanuY = parseInt(Math.random() * (screen.availHeight-100));
+
+        khavanuRef = document.getElementById("khavanu")
+        khavanuRef.style.left = khavanuX+"px";
+        khavanuRef.style.top = khavanuY+"px";
+
+        document.body.style.backgroundImage = "url('gameimage" + (currentScore % 5) + ".jpg')";
+        document.body.style.backgroundSize = "cover";
+         
+      }
+
+      changeKhavanuPosition();
+startTimer();
+
+    </script>
+  </body>
+</html>
